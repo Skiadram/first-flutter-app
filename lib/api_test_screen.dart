@@ -2,34 +2,31 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:test_flutter/models/response.dart';
 
-import 'newscreen.dart';
+import 'models/response.dart';
+import 'new_screen.dart';
 
 class ApiTestScreen extends StatefulWidget {
-  const ApiTestScreen({
-    Key? key,
-  }) : super(key: key);
+  const ApiTestScreen({Key? key,}) : super(key: key);
 
   @override
-  _ApiTestScreenState createState() => _ApiTestScreenState();
+  _ApiTestScreenState createState() => _ApiTestScreenState(); 
 }
 
 class _ApiTestScreenState extends State<ApiTestScreen> {
-  List<Results> _characters = List.empty();
+  List<Results> _characters = [];
 
-  Future<void> getAllCharacters() async {
-    debugPrint('getting char...');
-    var url = Uri.parse('https://rickandmortyapi.com/api/character');
+  Future<void> getAllCharacters() async 
+  {
+    var uri = Uri.parse('https://rickandmortyapi.com/api/character');
 
-    var response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      debugPrint("json decode");
+    var response = await http.get(uri);
+    
+    if(response.statusCode == 200)
+    {
       Map<String, dynamic> map = jsonDecode(response.body);
-
-      debugPrint("fromJson");
       Response res = Response.fromJson(map);
+
       if (res.results!.isNotEmpty) {
         debugPrint("set results inside _characters");
         setState(() {
@@ -39,13 +36,13 @@ class _ApiTestScreenState extends State<ApiTestScreen> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: _getBody(),
       floatingActionButton: FloatingActionButton(
         onPressed: getAllCharacters,
-        tooltip: 'get all characters',
+        tooltip: 'Increment',
         child: const Icon(Icons.api),
       ),
     );
@@ -64,12 +61,12 @@ class _ApiTestScreenState extends State<ApiTestScreen> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
-                        NewScreen(maVar: _characters[index])));
+                        NewScreen(maVar: _characters[index],)));
               },
             );
           });
     } else {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
   }
 }

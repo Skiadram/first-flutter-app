@@ -178,14 +178,14 @@ class Info {
   int? _count;
   int? _pages;
   String? _next;
-  dynamic? _prev;
+  dynamic _prev;
 
   int? get count => _count;
   int? get pages => _pages;
   String? get next => _next;
-  dynamic? get prev => _prev;
+  dynamic get prev => _prev;
 
-  Info({int? count, int? pages, String? next, dynamic? prev}) {
+  Info({int? count, int? pages, String? next, dynamic prev}) {
     _count = count;
     _pages = pages;
     _next = next;
